@@ -1,0 +1,42 @@
+# Write a query the street address, starttime and endtime of the servicepoints in the same city as userid 5.
+select street_addr,start_time,end_time 
+from service_point 
+where service_point.city IN( select address.city from address where user_id=5);
+
+#Write a query the information of laptops.
+SELECT *FROM Product 
+WHERE type='laptop';
+
+#Write a query to get the total quantity of products from store with storeid 8 in the shopping cart.
+select sum(quantity) as Total_quantity 
+from save_to_shopping_cart 
+where save_to_shopping_cart.pid IN (select product.pid from product where sid=8);
+
+#Write a query to show the name and address of orders delivered on 2017-02-17.
+select name, street_address 
+from address where addr_id IN (select addr_id from deliver_to where time_delivered = '2017-02-17');
+
+#Write a query to show the comments of product 1,2,3,4,5,6,7,8.
+select comments.content as comments, product.pid 
+from comments inner join product on comments.pid=product.pid 
+order by pid;
+
+#Write a query to Insert the user id of sellers whose name starts with A into buyer.
+insert into buyer 
+select * from seller 
+where user_id IN (select user_id from users where name like'A%');
+
+#Write a query to Update the payment state of orders to unpaid which created after year 2017 and with total amount greater than 50.
+update orders set payment_status = 'Unpaid' 
+where creation_time > '2017-01-01' and total_amount > '50';
+
+#Write a query to Update the name and contact phone number of address where the provice is Quebec and city is montreal
+update address set name = 'AAA', contact_phone_number = 111-222-3333 
+where province = 'quebec' and city = 'montreal';
+
+#Write a query to Delete the store which opened before year 2017.
+delete from save_to_shopping_cart 
+Where addTime < '2017-01-01';
+
+#Write a query to Create view of all products whose price above average price.
+create view Allproducts as select pid,name,price from product where price > (select avg(price) from product);
